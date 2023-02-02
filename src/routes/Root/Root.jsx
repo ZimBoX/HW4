@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useOutlet } from "react-router-dom";
 
+import ConnectionTest from '../../components/ConnectionTest/ConnectionTest';
+
 import Button from '../../components/Button/Button';
 
 import './Root.css';
@@ -8,18 +10,25 @@ import './Root.css';
 function Root() {
 
     let outlet = useOutlet();
+    const [loginStatus, setLoginStatus] = useState(false);
+    const [axiosURL, setAxiosURL] = useState([]);
 
     useEffect( () => {
         if(outlet === null){
             window.location.href = "/main";
         }
-    }, [] )
+    }, [] );
 
-    const {loginStatus, setLoginStatus} = useState(false);
+    // if(axiosURL.length !== 0) console.log("current link: " + axiosURL);
 
     return (
         <div>
-            <header>
+            {(axiosURL.length === 0)
+            ?<ConnectionTest 
+                script = "Connection_test.php"
+                callBack = { setAxiosURL } 
+            />
+            :<header>
                 <nav className='container-md'>
                     <div className='navButtons'>
                         <Button 
@@ -58,7 +67,7 @@ function Root() {
                     </div>
                 </nav>
                 <hr />
-            </header>
+            </header>}
 
             <div className='container-md'>
                 <Outlet />
