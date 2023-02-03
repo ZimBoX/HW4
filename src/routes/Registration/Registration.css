@@ -15,7 +15,7 @@
 }
 
 .Registration input:focus-visible{
-    outline: none;
+    outline: 1px solid #0691AE;
 }
 .Registration input:invalid{
     border-color: rgb(250, 60, 60);

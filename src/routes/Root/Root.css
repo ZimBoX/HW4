@@ -21,3 +21,10 @@ header nav .navButtons .ButtonComponent, header nav .LoginRegister .ButtonCompon
 header hr{
     border-color: #0691AE;
 }
+
+.LoginRegister h2{
+    font-family: 'Roboto', sans-serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: aliceblue;
+}

@@ -12,6 +12,7 @@ function Root() {
 
     let outlet = useOutlet();
     const [loginStatus, setLoginStatus] = useState(false);
+    const [userAdmin, setUserAdmin] = useState(false);
     const [axiosURL, setAxiosURL] = useState([]);
     const [logOutURL, setlogOutURL] = useState([]);
     const [userName, setUserName] = useState("");
@@ -21,9 +22,18 @@ function Root() {
             window.location.href = "/main";
         }
     }, [] );
+
+    useEffect( () => {
+        if(window.location.href.indexOf("/admin") !== -1 && !userAdmin){
+            window.location.href = "/login";
+        }
+    } )
+
     useEffect( () => {
         if(!loginStatus && axiosURL.length > 0){
-            axios.post(axiosURL).then( (responce) => {
+            axios.post(axiosURL,{
+                type: "getUser"
+            }).then( (responce) => {
                 if(responce.data){
                     setLoginStatus(true);
                     setUserName(responce.data);
@@ -31,6 +41,18 @@ function Root() {
             } )
         }
     } )
+
+    useEffect( () => {
+        if(loginStatus && axiosURL.length > 0){
+            axios.post(axiosURL,{
+                type: "getPermissions"
+            }).then( (responce) => {
+                if(responce.data >= 90){
+                    setUserAdmin(true);
+                }
+            } )
+        }
+    }, [loginStatus] )
 
     function LogOut(){
         axios.post(logOutURL,{
@@ -64,11 +86,14 @@ function Root() {
                             text="Главная"
                             href="/main"
                         />
-                        <Button 
+                        {userAdmin
+                        ?<Button 
                             type="Button"
                             text="Панель администратора"
                             href="/admin"
                         />
+                        :<div></div>
+                        }
                     </div>
                     <div>
                         {loginStatus
