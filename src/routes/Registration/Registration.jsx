@@ -7,6 +7,7 @@ import crypto from "crypto-js";
 import "./Registration.css";
 
 import ConnectionTest from "../../components/ConnectionTest/ConnectionTest";
+import Button from "../../components/Button/Button";
 
 function Registration(){
 
@@ -56,17 +57,19 @@ function Registration(){
                 postcode: userPostcode
             })
             .then( (response) => {
-                console.log(response.data)
                 if(response.data === "clone login"){
-                    setMessage("Пользователь с таким логином уже существует");
+                    setMessage("Пользователь с таким логином уже существует!");
                 }
                 else if(response.data === "clone email"){
-                    setMessage("Пользователь с такой электронной почтой уже существует");
+                    setMessage("Пользователь с такой электронной почтой уже существует!");
                 }
                 else{
                     window.location.href = "/login"
                 }
             } )
+        }
+        else{
+            setMessage("Заполните все обязательные поля!")
         }
 
        
@@ -79,31 +82,36 @@ function Registration(){
                 script = "Registration.php"
                 callBack = { setAxiosURL } 
             />
-            :<div className="Registration" onSubmit={ (event) => {event.preventDefault(); userReg();}}>
-                <form id="HW2Registration">
+            :<div className="Registration">
+                <form onSubmit={ (event) => {event.preventDefault(); userReg();}}>
                     <input 
                         type="text" 
                         name="Login" 
                         ref={ Login } 
-                        placeholder="Логин*" 
+                        placeholder="Логин*"
+                        minLength={3}
+                        maxLength={20}
                     />
                     <input 
                         type="password"  
                         name="Password" 
                         ref={ Password } 
-                        placeholder="Пароль*" 
+                        placeholder="Пароль*"
+                        minLength={3}
                     />
                     <input 
                         type="email" 
                         name="Email" 
                         ref={ Email } 
-                        placeholder="Электронная почта*" 
+                        placeholder="Электронная почта*"
+                        minLength={3}
                     />
                     <input 
                         type="text" 
                         name="UserName" 
                         ref={ UserName } 
-                        placeholder="Имя пользователя*" 
+                        placeholder="Имя пользователя*"
+                        minLength={3}
                     />
                     <input 
                         type="text" 
@@ -123,7 +131,11 @@ function Registration(){
                         ref={ Postcode } 
                         placeholder="Почтовый индекс" 
                     />
-                    <button type="submit"><p>Регистрация</p></button>
+                    <Button 
+                        text="Регистрация"
+                        type="Submit"
+                        state={ ()=>{} }
+                    />
                     <h2>
                         Есть аккаунт? <Link to={`/Login`}>Войти</Link>
                     </h2>

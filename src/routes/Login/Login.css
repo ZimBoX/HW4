@@ -1,0 +1,45 @@
+.Login input{
+    width: 500px;
+    height: 50px;
+    background: #454545;
+    border: 1px solid #0691AE;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 300;
+    color: aliceblue;
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.Login input:focus-visible{
+    outline: none;
+}
+.Login input:invalid{
+    border-color: rgb(250, 60, 60);
+}
+.Login .inputEror{
+    border-color: rgb(250, 60, 60);
+}
+.Login h3{
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    font-size: 30px;
+    font-weight: 300;
+    color: rgb(250, 60, 60);
+    margin-top: 20px;
+}
+.Login h2,.Login a{
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    font-size: 30px;
+    font-weight: 300;
+    color: aliceblue;
+    margin-top: 20px;
+}
+.Login button{
+    border: 1px solid #0691AE;
+    margin-top: 20px;
+}

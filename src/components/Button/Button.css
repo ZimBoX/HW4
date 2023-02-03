@@ -47,7 +47,7 @@
 }
 
 .ButtonComponent .activeButton{
-    border-width: 0px 1px 2px 1px;
+    border-width: 2px 1px 0px 1px;
     border-style: solid;
     border-color: #02897D;
     border-radius: 8px;

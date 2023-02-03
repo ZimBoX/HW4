@@ -5,6 +5,12 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true');
 
-echo json_encode("Начать подключение!!");
+session_start();
 
+if(!isset($_SESSION["UserID"])){
+    die('false');
+}
+else{
+    die($_SESSION["UserName"]);
+}
 ?>
