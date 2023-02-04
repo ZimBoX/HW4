@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Outlet, useOutlet } from "react-router-dom";
+import { useState, useEffect, useRef } from 'react';
+import { Outlet, useOutlet, useNavigate } from "react-router-dom";
 
 import ConnectionTest from '../../components/ConnectionTest/ConnectionTest';
 
@@ -17,6 +17,10 @@ function Root() {
     const [logOutURL, setlogOutURL] = useState([]);
     const [userName, setUserName] = useState("");
 
+    const [errMessage, setErrorMessage] = useState("");
+
+    const navigate = useNavigate();
+
     useEffect( () => {
         if(outlet === null){
             window.location.href = "/main";
@@ -28,6 +32,12 @@ function Root() {
             window.location.href = "/login";
         }
     } )
+
+    useEffect( () => {
+        if (errMessage !== ""){
+            navigate("/error");
+        }
+    }, [errMessage] )
 
     useEffect( () => {
         if(!loginStatus && axiosURL.length > 0){
@@ -71,11 +81,13 @@ function Root() {
             ?<div>
             <ConnectionTest 
                 script = "Connection_test.php"
-                callBack = { setAxiosURL } 
+                callBack = { setAxiosURL }
+                errCallBack = { setErrorMessage }
             />
             <ConnectionTest 
                 script = "Logout.php"
-                callBack = { setlogOutURL } 
+                callBack = { setlogOutURL }
+                errCallBack = { setErrorMessage }
             />
             </div>
             :<header>
@@ -124,7 +136,7 @@ function Root() {
             </header>}
 
             <div className='container-md'>
-                <Outlet />
+                <Outlet context={[errMessage]}/>
             </div>
         </div>
     );

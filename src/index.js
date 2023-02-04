@@ -5,6 +5,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import axios from "axios";
+
 import './bootstrap.min.css'
 import './index.css';
 
@@ -13,9 +15,9 @@ import MainPage from './routes/MainPage/MainPage';
 import AdminPanel from './routes/AdminPanel/AdminPanel';
 import Login from './routes/Login/Login';
 import Registration from './routes/Registration/Registration';
+import Error from './routes/Error/Error';
 
 import reportWebVitals from './reportWebVitals';
-
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,10 @@ const router = createBrowserRouter([
     {
       path: "/registration",
       element: <Registration />
+    },
+    {
+      path: "/error",
+      element: <Error />
     },
   ]
   },

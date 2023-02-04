@@ -7,7 +7,7 @@ import "./MainPage.css";
 import ConnectionTest from "../../components/ConnectionTest/ConnectionTest";
 
 function MainPage(){
-
+    
     const [axiosURL, setAxiosURL] = useState([]);
     const [smartphones, setSmartphones] = useState([]);
     const [TVs, setTVs] = useState([]);
