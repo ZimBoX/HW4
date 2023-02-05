@@ -1,10 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import axios from "axios";
-
-import Error from '../../routes/Error/Error';
-
 
 function ConnectionTest(props){
     
@@ -20,11 +16,11 @@ function ConnectionTest(props){
                 errCallBack(data);
                 return;
             }
-            callBack(response.request.responseURL);
+            callBack("/php/");
             return;
         })
-        .catch(function (response) {
-            callBack("http://hw3dmr.box/" + script);
+        .catch(function () {
+            callBack("http://hw3dmr.box/");
             return;
         })
     }, [] );

@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
+import { useOutletContext } from "react-router-dom";
 
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -6,12 +7,12 @@ import crypto from "crypto-js";
 
 import "./Login.css";
 
-import ConnectionTest from "../../components/ConnectionTest/ConnectionTest";
 import Button from "../../components/Button/Button";
 
 function Login(){
 
-    const [axiosURL, setAxiosURL] = useState([]);
+    const [errMessage, axiosURL] = useOutletContext();
+
     const [message, setMessage] = useState("");
 
     let Login = useRef();
@@ -32,8 +33,8 @@ function Login(){
         if(userPassword === "") Password.current.className = "inputEror";
         
         if(userLogin !== "" && userPassword !== ""){
-                      
-            axios.post(axiosURL,{
+            let URL = axiosURL + "Login.php";
+            axios.post(URL,{
                 login: hashUserLogin,
                 password: hashuserPassword,
             })
@@ -56,10 +57,7 @@ function Login(){
     return(
         <div>
             {(axiosURL.length === 0)
-            ?<ConnectionTest 
-                script = "Login.php"
-                callBack = { setAxiosURL }
-            />
+            ?<div></div>
             :<div className="Login">
                 <form onSubmit={ (event) => {event.preventDefault(); userLogin();}}>
                     <input 

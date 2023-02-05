@@ -1,26 +1,27 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
 import axios from "axios";
 
 import "./MainPage.css";
 
-import ConnectionTest from "../../components/ConnectionTest/ConnectionTest";
-
 function MainPage(){
-    
-    const [axiosURL, setAxiosURL] = useState([]);
+
+    const [errMessage, axiosURL] = useOutletContext();
+
     const [smartphones, setSmartphones] = useState([]);
     const [TVs, setTVs] = useState([]);
 
     useEffect( () => {
         if(smartphones.length === 0 && axiosURL.length !== 0){
-            axios.post(axiosURL, {
+            let URL = axiosURL + "Show_data.php";
+            axios.post(URL, {
                 search: "Смартфоны"
             })
             .then( (response) => {
                 setSmartphones(response.data);
             } );
-            axios.post(axiosURL, {
+            axios.post(URL, {
                 search: "Телевизоры"
             })
             .then( (response) => {
@@ -32,10 +33,7 @@ function MainPage(){
     return(
         <div className="mainPage">
             {(axiosURL.length === 0)
-                ?<ConnectionTest 
-                    script = "Show_data.php"
-                    callBack = { setAxiosURL }
-                />
+                ?<div></div>
                 :<div>
                     <section className="smartphones row">
                         <h2>Смартфоны</h2>

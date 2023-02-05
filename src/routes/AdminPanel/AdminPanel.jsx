@@ -1,15 +1,16 @@
 import { useState, useRef } from "react";
+import { useOutletContext } from "react-router-dom";
 
 import axios from "axios";
 
 import "./AdminPanel.css";
 
-import ConnectionTest from "../../components/ConnectionTest/ConnectionTest";
 import Button from "../../components/Button/Button";
 
 function AdminPanel(){
 
-    const [axiosURL, setAxiosURL] = useState([]);
+    const [errMessage, axiosURL] = useOutletContext();
+
     const [message, setMessage] = useState("");
     const [newProductMessage, setNewProductMessage] = useState("");
     const [categories, setCategories] = useState([]);
@@ -33,7 +34,8 @@ function AdminPanel(){
         if(newCategory === "") CategoryName.current.className = "inputEror";
 
         if(newCategory !== ""){  
-            axios.post(axiosURL,{
+            let URL = axiosURL + "Write_data.php";
+            axios.post(URL,{
                 type: "category",
                 categoryName: newCategory
             })
@@ -52,7 +54,8 @@ function AdminPanel(){
     }
 
     function updateCategory(){
-        axios.post(axiosURL,{
+        let URL = axiosURL + "Write_data.php";
+        axios.post(URL,{
             type: "getCategories"
         })
         .then( (responce) => {
@@ -76,7 +79,8 @@ function AdminPanel(){
 
         if(newProductName !== "" && newProductDescription !== "" && newProductPrice !== "" && newProductCategory !== "")
         {
-            axios.post(axiosURL, {
+            let URL = axiosURL + "Write_data.php";
+            axios.post(URL, {
                 type: "setNewProduct",
                 ProductName: newProductName,
                 ProductDescription: newProductDescription,
@@ -118,10 +122,7 @@ function AdminPanel(){
     return(
         <div className="adminPanel">
             {(axiosURL.length === 0)
-                ?<ConnectionTest 
-                    script = "Write_data.php"
-                    callBack = { setAxiosURL }
-                />
+                ?<div></div>
                 :<div className="row">
                     <div className="col-12 adminFormWrapper">
                         <h2>Новая категория</h2>

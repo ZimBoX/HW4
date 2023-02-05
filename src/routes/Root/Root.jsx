@@ -14,7 +14,6 @@ function Root() {
     const [loginStatus, setLoginStatus] = useState(false);
     const [userAdmin, setUserAdmin] = useState(false);
     const [axiosURL, setAxiosURL] = useState([]);
-    const [logOutURL, setlogOutURL] = useState([]);
     const [userName, setUserName] = useState("");
 
     const [errMessage, setErrorMessage] = useState("");
@@ -41,7 +40,8 @@ function Root() {
 
     useEffect( () => {
         if(!loginStatus && axiosURL.length > 0){
-            axios.post(axiosURL,{
+            let URL = axiosURL + "Connection_test.php";
+            axios.post(URL,{
                 type: "getUser"
             }).then( (responce) => {
                 if(responce.data){
@@ -54,7 +54,8 @@ function Root() {
 
     useEffect( () => {
         if(loginStatus && axiosURL.length > 0){
-            axios.post(axiosURL,{
+            let URL = axiosURL + "Connection_test.php";
+            axios.post(URL,{
                 type: "getPermissions"
             }).then( (responce) => {
                 if(responce.data >= 90){
@@ -65,7 +66,8 @@ function Root() {
     }, [loginStatus] )
 
     function LogOut(){
-        axios.post(logOutURL,{
+        let URL = axiosURL + "Logout.php"
+        axios.post(URL,{
             logout: true
         })
         .then( () => {
@@ -82,11 +84,6 @@ function Root() {
             <ConnectionTest 
                 script = "Connection_test.php"
                 callBack = { setAxiosURL }
-                errCallBack = { setErrorMessage }
-            />
-            <ConnectionTest 
-                script = "Logout.php"
-                callBack = { setlogOutURL }
                 errCallBack = { setErrorMessage }
             />
             </div>
@@ -136,7 +133,7 @@ function Root() {
             </header>}
 
             <div className='container-md'>
-                <Outlet context={[errMessage]}/>
+                <Outlet context={[errMessage, axiosURL]}/>
             </div>
         </div>
     );
