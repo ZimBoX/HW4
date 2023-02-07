@@ -16,6 +16,7 @@ import AdminPanel from './routes/AdminPanel/AdminPanel';
 import Login from './routes/Login/Login';
 import Registration from './routes/Registration/Registration';
 import Error from './routes/Error/Error';
+import Product from './routes/Product/Product';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
     {
       path: "/error",
       element: <Error />
+    },
+    {
+      path: "/product",
+      element: <Product />
     },
   ]
   },

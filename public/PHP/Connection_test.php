@@ -10,13 +10,14 @@ session_start();
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (isset($input)) {
-    if($input["type"] === "getUser"){
+    
+    if($input["type"] === "getUserName"){
 
         if(!isset($_SESSION["UserID"])){
             die('false');
         }
         else{
-            die($_SESSION["UserName"]);
+            die(json_encode([$_SESSION["UserName"],$_SESSION["UserID"]]));
         }
     }
     if($input["type"] === "getPermissions"){

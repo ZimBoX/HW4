@@ -11,7 +11,7 @@ import Button from "../../components/Button/Button";
 
 function Login(){
 
-    const [errMessage, axiosURL] = useOutletContext();
+    const {axiosURL} = useOutletContext();
 
     const [message, setMessage] = useState("");
 

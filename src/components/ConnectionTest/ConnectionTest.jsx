@@ -20,7 +20,7 @@ function ConnectionTest(props){
             return;
         })
         .catch(function () {
-            callBack("http://hw3dmr.box/");
+            callBack("http://hw3dmr.box/php/");
             return;
         })
     }, [] );

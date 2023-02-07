@@ -9,7 +9,7 @@ import Button from "../../components/Button/Button";
 
 function AdminPanel(){
 
-    const [errMessage, axiosURL] = useOutletContext();
+    const {axiosURL} = useOutletContext();
 
     const [message, setMessage] = useState("");
     const [newProductMessage, setNewProductMessage] = useState("");

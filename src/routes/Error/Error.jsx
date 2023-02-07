@@ -2,7 +2,7 @@ import { useOutletContext } from "react-router-dom";
 
 function Error(){
 
-    const [errMessage, axiosURL] = useOutletContext();
+    const {errMessage} = useOutletContext();
 
     return(
         <div>

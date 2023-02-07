@@ -9,12 +9,13 @@ session_start();
 
 $input = json_decode(file_get_contents('php://input'), true);
 
-if(isset($input)){
+if (isset($input)) {
 
-    $_SESSION["UserID"] = null;
-    $_SESSION["UserName"] = null;
-    $_SESSION["UserAccessLevel"] = null;
+    $value = $input["userCity"];
 
-    session_write_close();
+    $_SESSION["userCity"] = $value;
+
+    die();
 }
+
 ?>

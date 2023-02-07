@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { Outlet, useOutlet, useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Outlet, useOutlet, useNavigate, Link } from "react-router-dom";
 
 import ConnectionTest from '../../components/ConnectionTest/ConnectionTest';
-
-import Button from '../../components/Button/Button';
+import Header from '../../components/Header/Header';
 
 import './Root.css';
 import axios from 'axios';
@@ -11,12 +10,16 @@ import axios from 'axios';
 function Root() {
 
     let outlet = useOutlet();
+
+    const [axiosURL, setAxiosURL] = useState([]);
+
     const [loginStatus, setLoginStatus] = useState(false);
     const [userAdmin, setUserAdmin] = useState(false);
-    const [axiosURL, setAxiosURL] = useState([]);
     const [userName, setUserName] = useState("");
+    const [userId, setUserId] = useState(-1);
 
     const [errMessage, setErrorMessage] = useState("");
+    const [productInfo, setProductInfo] = useState([]);
 
     const navigate = useNavigate();
 
@@ -26,11 +29,11 @@ function Root() {
         }
     }, [] );
 
-    useEffect( () => {
-        if(window.location.href.indexOf("/admin") !== -1 && !userAdmin){
-            window.location.href = "/login";
-        }
-    } )
+    // useEffect( () => {
+    //     if(window.location.href.indexOf("/admin") !== -1 && !userAdmin){
+    //         window.location.href = "/login";
+    //     }
+    // } )
 
     useEffect( () => {
         if (errMessage !== ""){
@@ -42,11 +45,12 @@ function Root() {
         if(!loginStatus && axiosURL.length > 0){
             let URL = axiosURL + "Connection_test.php";
             axios.post(URL,{
-                type: "getUser"
+                type: "getUserName"
             }).then( (responce) => {
                 if(responce.data){
                     setLoginStatus(true);
-                    setUserName(responce.data);
+                    setUserName(responce.data[0]);
+                    setUserId(responce.data[1]);
                 }
             } )
         }
@@ -65,16 +69,6 @@ function Root() {
         }
     }, [loginStatus] )
 
-    function LogOut(){
-        let URL = axiosURL + "Logout.php"
-        axios.post(URL,{
-            logout: true
-        })
-        .then( () => {
-            window.location.reload();
-        } )
-    }
-
     // if(axiosURL.length !== 0) console.log("current link: " + axiosURL);
 
     return (
@@ -88,52 +82,32 @@ function Root() {
             />
             </div>
             :<header>
-                <nav className='container-md'>
-                    <div className='navButtons'>
-                        <Button 
-                            type="Button"
-                            text="Главная"
-                            href="/main"
-                        />
-                        {userAdmin
-                        ?<Button 
-                            type="Button"
-                            text="Панель администратора"
-                            href="/admin"
-                        />
-                        :<div></div>
-                        }
-                    </div>
-                    <div>
-                        {loginStatus
-                        ? <div className='LoginRegister'>
-                            <h2>Привет { userName }</h2>
-                            <Button 
-                                type="Button"
-                                text="Выход"
-                                state={ LogOut }
-                            />
-                        </div>
-                        : <div className='LoginRegister'>
-                            <Button 
-                                type="Button"
-                                text="Вход"
-                                href="/login"
-                            />
-                            <Button 
-                                type="Button"
-                                text="Регистрация"
-                                href="/registration"
-                            />
-                        </div>
-                        }
-                    </div>
-                </nav>
-                <hr />
+                <Header 
+                    axiosURL={ axiosURL }
+                    loginStatus = { loginStatus }
+                    ProductState = { setProductInfo }
+                    userName = { userName }
+                />
+                {userAdmin
+                  ?<div className='AdminButton'>
+                    <Link to="/admin">Панель администратора</Link>
+                  </div>
+                  :<div></div>
+                }
             </header>}
 
             <div className='container-md'>
-                <Outlet context={[errMessage, axiosURL]}/>
+                <Outlet context={{
+                    errMessage: errMessage,
+                    axiosURL: axiosURL,
+                    productInfo: productInfo,
+                    setProductInfo: setProductInfo,
+                    loginStatus: loginStatus,
+                    userName: userName,
+                    userAdmin: userAdmin,
+                    userId: userId,
+                }
+                }/>
             </div>
         </div>
     );

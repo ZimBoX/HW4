@@ -9,12 +9,18 @@ session_start();
 
 $input = json_decode(file_get_contents('php://input'), true);
 
-if(isset($input)){
+if (isset($input)) {
+    
+    include("Connect_db.php");
 
-    $_SESSION["UserID"] = null;
-    $_SESSION["UserName"] = null;
-    $_SESSION["UserAccessLevel"] = null;
+    $conn = Connection_DB();
 
-    session_write_close();
+    $reviewId = $input["id"];
+
+    $sql = "DELETE FROM reviews WHERE `id` = '{$reviewId}';";
+
+    mysqli_query($conn, $sql);
+
+    die("done");
 }
 ?>
