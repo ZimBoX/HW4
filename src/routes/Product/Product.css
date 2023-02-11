@@ -100,6 +100,12 @@
     color: #FFFFFF;
 }
 
+.otherRewiewsItem .delRewiew button:hover, .userReview button:hover{
+    outline: 1px solid #6921FC;
+    background-color: #FFFFFF;
+    color: #333333;
+}
+
 .otherRewiewsItem .delRewiew button:active{
     filter: brightness(1.1);
 }

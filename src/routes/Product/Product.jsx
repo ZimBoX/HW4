@@ -103,7 +103,7 @@ function Product() {
 
         if(text !== ""){
             axios.post(url,{
-                userId: 1,
+                userId: userId,
                 productId: productId,
                 reviewText: text,
             }).then( () => {
@@ -150,7 +150,7 @@ function Product() {
 
             <div className="userReviewWrapper col-12">
                 <h2>Отзывы</h2>
-                {!loginStatus
+                {loginStatus
                     ? <div className="userReview">
                         <form onSubmit={ (e) => { e.preventDefault(); addReview(); } }>
                             <textarea 

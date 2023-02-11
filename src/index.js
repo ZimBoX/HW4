@@ -17,6 +17,7 @@ import Login from './routes/Login/Login';
 import Registration from './routes/Registration/Registration';
 import Error from './routes/Error/Error';
 import Product from './routes/Product/Product';
+import Сatigories from './routes/Сatigories/Сatigories';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
     {
       path: "/product",
       element: <Product />
+    },
+    {
+      path: "/catigories",
+      element: <Сatigories />
     },
   ]
   },

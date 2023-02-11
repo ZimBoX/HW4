@@ -1,57 +1,120 @@
 .adminPanel input{
-    width: 500px;
+    width: 100%;
     height: 50px;
-    background: #454545;
-    border: 1px solid #0691AE;
-    border-radius: 8px;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
     font-size: 20px;
-    font-weight: 300;
-    color: aliceblue;
-    display: block;
-    margin-top: 20px;
+    line-height: 28px;
+    color: #333333;
+
+    background: #FFFFFF;
+    border: none;
+    border: 1px solid #A8A8A8;
+    border-radius: 10px;
+
     padding: 10px;
 }
 
 .adminPanel input:focus-visible{
-    outline: 1px solid #0691AE;
+    outline: 1px solid #333333;
 }
+
 .adminPanel input:invalid{
     border-color: rgb(250, 60, 60);
 }
+
 .adminPanel .inputEror{
     border-color: rgb(250, 60, 60);
 }
+
+.adminPanel select{
+    width: 100%;
+    height: 50px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: #333333;
+
+    background: #FFFFFF;
+    border: none;
+    border: 1px solid #A8A8A8;
+    border-radius: 10px;
+
+    padding: 10px;
+}
+
 .adminPanel h3{
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    font-size: 16px;
-    font-weight: 300;
+    margin-top: 25px;
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
     color: rgb(250, 60, 60);
-    margin-top: 20px;
-    margin-left: 10px;
 }
+
 .adminPanel h2,.adminPanel a{
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    font-size: 30px;
-    font-weight: 300;
-    color: aliceblue;
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    color: #333333;
     margin-top: 20px;
+    margin-bottom: 10px;
 }
+
 .adminPanel button{
-    border: 1px solid #0691AE;
-    margin-top: 20px;
-    margin-left: 25px;
+    width: 100%;
+    height: 50px;
+    background: #6921FC;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-left: 20px;
+}
+
+.adminPanel button:hover{
+    outline: 1px solid #6921FC;
+    background-color: #FFFFFF;
+    color: #333333;
+}
+
+.adminPanel button:active{
+    filter: brightness(1.1);
 }
 
 .adminPanel form{
     display: flex;
+    padding: 25px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+
 }
 .adminFormWrapper{
+    margin-top: 50px;
+    margin-bottom: 25px;
     padding: 25px;
-    box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+}
+
+.addProduct{
+    margin-top: 25px;
+    margin-bottom: 50px;
 }
 
 .addProduct form{
@@ -59,46 +122,70 @@
 }
 
 .addProduct textarea{
-    min-height: 50px;
-    width: 500px;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
+    width: 100%;
+    height: 50px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
     font-size: 20px;
-    font-weight: 300;
-    color: aliceblue;
-    background-color: #454545;
-    margin-top: 20px;
-    border: 1px solid #0691AE;
-    border-radius: 8px;
+    line-height: 28px;
+    color: #333333;
+
+    background: #FFFFFF;
+    border: none;
+    border: 1px solid #A8A8A8;
+    border-radius: 10px;
+
     padding: 10px;
 }
 
+.addProduct textarea, .addProduct input, .addProduct select{
+    margin-bottom: 25px;
+}
+
 .addProduct textarea:focus-visible{
-    outline: 1px solid #0691AE;
+    outline: 1px solid #333333;
 }
 .addProduct button{
     margin-left: 0;
 }
 
-.addProduct select{
-    min-height: 50px;
-    width: 500px;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    font-size: 20px;
-    font-weight: 300;
-    color: aliceblue;
-    background-color: #454545;
-    margin-top: 20px;
-    border: 1px solid #0691AE;
-    border-radius: 8px;
-    padding: 10px;
-}
-
 .addProduct select option{
-    border: 1px solid #0691AE;
+    border: 1px solid #333333;
 }
 
 .addProduct select:hover, .addProduct select:focus-visible{
-    outline: 1px solid #0691AE;
+    outline: 1px solid #333333;
+}
+.delProduct .table td{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 15px;
+    color: #333333;
+    padding: 5px;
+    border: 1px solid #333333;
+}
+.delProduct .table td a{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 15px;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+}
+
+.delProduct .table th{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    color: #333333;
+    border: 1px solid #333333;
+    padding: 5px;
 }

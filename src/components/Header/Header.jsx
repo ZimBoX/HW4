@@ -27,7 +27,7 @@ function Header(props){
         .then( (responce) => {
             let data = responce.data;
             if(!data){
-                // navigator.geolocation.getCurrentPosition(getCity);
+                navigator.geolocation.getCurrentPosition(getCity);
                 return;
             }
             else{

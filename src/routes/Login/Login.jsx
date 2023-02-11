@@ -75,16 +75,12 @@ function Login(){
                         placeholder="Пароль*"
                         minLength={3}
                     />
-                    <Button 
-                        type="Submit"
-                        text="Войти"
-                        state={ ()=>{} }
-                    />
+                    <button type="submit">Войти</button>
                     <h2>
                         Нет аккаунта? <Link to={`/registration`}>Регистрация</Link>
                     </h2>
+                    <h3>{ message }</h3>
                 </form>
-                <h3>{ message }</h3>
             </div>
             }
         </div>

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link } from "react-router-dom";
 
 import axios from "axios";
 
@@ -9,11 +9,14 @@ import Button from "../../components/Button/Button";
 
 function AdminPanel(){
 
-    const {axiosURL} = useOutletContext();
+    const {axiosURL, userAdmin} = useOutletContext();
 
     const [message, setMessage] = useState("");
     const [newProductMessage, setNewProductMessage] = useState("");
     const [categories, setCategories] = useState([]);
+
+    const [productList, setProductList] = useState([]);
+
 
     let CategoryName = useRef();
     let messageText = useRef();
@@ -22,7 +25,9 @@ function AdminPanel(){
     let ProductName = useRef();
     let ProductDescription = useRef();
     let ProductPrice = useRef();
-    let ProductCategory = useRef();
+    let addProductCategory = useRef();
+    let delProductCategory = useRef();
+    let delProductSellect = useRef();
 
     function addCategory(){
         CategoryName.current.className = "";
@@ -36,7 +41,7 @@ function AdminPanel(){
         if(newCategory !== ""){  
             let URL = axiosURL + "Write_data.php";
             axios.post(URL,{
-                type: "category",
+                type: "setCategory",
                 categoryName: newCategory
             })
             .then( (responce) => {
@@ -53,6 +58,29 @@ function AdminPanel(){
         }
     }
 
+    function delCategory(){
+        let catName = delProductCategory.current.value;
+        if(catName !== ""){
+            let URL = axiosURL + "Write_data.php";
+            axios.post(URL,{
+                type: "delCategory",
+                categoryName: catName
+            })
+            .then( (responce) => {
+                if(responce.data === "done"){
+                    messageText.current.style.color = "green";
+                    setMessage("Категория была удалена!")
+                    delProductCategory.current.value = "";
+                    updateCategory()
+                }
+            })
+        }
+        else{
+            messageText.current.style.color = "rgb(250, 60, 60)";
+            setMessage("Сначала выберите категорию!")
+        }
+    }
+
     function updateCategory(){
         let URL = axiosURL + "Write_data.php";
         axios.post(URL,{
@@ -66,38 +94,75 @@ function AdminPanel(){
         } )
     }
 
+    function delProduct(prodId){
+        if(prodId !== ""){
+            let URL = axiosURL + "Write_data.php";
+            axios.post(URL,{
+                type: "delProduct",
+                prodId: prodId
+            })
+            .then( (responce) => {
+                if(responce.data === "done"){
+                    messageText.current.style.color = "green";
+                    setNewProductMessage("Продукт был удален!")
+                    delProductCategory.current.value = "";
+                    showProductList()
+                }
+            })
+        }
+        else{
+            messageText.current.style.color = "rgb(250, 60, 60)";
+            setMessage("Сначала выберите категорию!")
+        }
+    }
+
+    function showProductList(){
+        let selCat = delProductSellect.current.value;
+        if(selCat !==""){
+            let URL = axiosURL + "Write_data.php";
+            axios.post(URL,{
+                type: "getProducts",
+                categoryName: selCat
+            })
+            .then( (responce) => {
+                setProductList(responce.data);
+            } )
+        }
+    }
+
     function addProduct(){
         let newProductName = ProductName.current.value;
         let newProductDescription = ProductDescription.current.value;
         let newProductPrice = ProductPrice.current.value;
-        let newProductCategory = ProductCategory.current.value;
+        let newAddProductCategory = addProductCategory.current.value;
 
         if(newProductName === "") ProductName.current.className = "inputEror";
         if(newProductDescription === "") ProductDescription.current.className = "inputEror";
         if(newProductPrice === "") ProductPrice.current.className = "inputEror";
-        if(newProductCategory === "") ProductCategory.current.className = "inputEror";
+        if(newAddProductCategory === "") addProductCategory.current.className = "inputEror";
 
-        if(newProductName !== "" && newProductDescription !== "" && newProductPrice !== "" && newProductCategory !== "")
+        if(newProductName !== "" && newProductDescription !== "" && newProductPrice !== "" && newAddProductCategory !== "")
         {
             let URL = axiosURL + "Write_data.php";
             axios.post(URL, {
                 type: "setNewProduct",
                 ProductName: newProductName,
                 ProductDescription: newProductDescription,
-                ProductCategory: newProductCategory,
+                addProductCategory: newAddProductCategory,
                 ProductPrice: newProductPrice
             })
             .then( (responce) => {
+                console.log(responce.data)
                 if(responce.data === "done"){
 
                     ProductName.current.value = "";
                     ProductDescription.current.value = "";
-                    ProductCategory.current.value = "";
+                    addProductCategory.current.value = "";
                     ProductPrice.current.value = "";
 
                     ProductName.current.className = "";
                     ProductDescription.current.className = "";
-                    ProductCategory.current.className = "";
+                    addProductCategory.current.className = "";
                     ProductPrice.current.className = "";
 
                     productMessageText.current.style.color = "green";
@@ -112,7 +177,7 @@ function AdminPanel(){
                     
                     ProductName.current.className = "inputEror";
                     ProductDescription.current.className = "inputEror";
-                    ProductCategory.current.className = "inputEror";
+                    addProductCategory.current.className = "inputEror";
                     ProductPrice.current.className = "inputEror";
                 }
             } )
@@ -121,68 +186,134 @@ function AdminPanel(){
 
     return(
         <div className="adminPanel">
-            {(axiosURL.length === 0)
+            {(axiosURL.length === 0 || !userAdmin)
                 ?<div></div>
                 :<div className="row">
-                    <div className="col-12 adminFormWrapper">
-                        <h2>Новая категория</h2>
-                        <form onSubmit={ (event) => {event.preventDefault(); addCategory();}}>
-                            <input 
-                                type="text"
-                                name="NewCategory" 
-                                ref={ CategoryName } 
-                                placeholder="Новая категория"
-                                minLength={3}
-                                maxLength={32}
-                            />
-                            <Button 
-                                type="Submit"
-                                text="Добавить"
-                                state={ ()=>{} }
-                            />
-                        </form>
+                    <div className="col-12 adminFormWrapper row">
+                        <div className="col-6 addCat">
+                            <h2>Добавить категорию</h2>
+                            <form onSubmit={ (event) => {event.preventDefault(); addCategory();}}>
+                                <input 
+                                    type="text"
+                                    name="NewCategory" 
+                                    ref={ CategoryName } 
+                                    placeholder="Новая категория"
+                                    minLength={3}
+                                    maxLength={32}
+                                />
+                                <button type="submit">Добавить</button>
+                            </form>
+                        </div>
+
+                        <div className="col-6 delCat">
+                            <h2>Удалить категорию</h2>
+                            <form onSubmit={ (event) => {event.preventDefault(); delCategory();}}>
+                                <select 
+                                    name="delProductCategory" 
+                                    ref={delProductCategory}
+                                    onClick={ () => { updateCategory() } }>
+                                    <option value="">--Выберите категорию--</option>
+                                    { categories.map( (f) => {
+                                        return(
+                                            <option value={f}>{f}</option>
+                                        )
+                                    } ) }
+                                </select>
+                                <button type="submit">Удалить</button>
+                            </form>
+                        </div>
                         <h3 ref={ messageText } >{ message }</h3>
                     </div>
-                    <div className="col-12 adminFormWrapper addProduct">
-                        <h2>Новый товар</h2>
-                        <form onSubmit={ (event) => {event.preventDefault(); addProduct();}}>
-                            <textarea 
-                                name="ProductName"
-                                placeholder="Название"
-                                ref={ ProductName }
-                                minLength={3}>
-                            </textarea>
-                            <textarea 
-                                name="ProductDescription"
-                                placeholder="Описание"
-                                ref={ ProductDescription }
-                                minLength={3}>
-                            </textarea>
-                            <select 
-                                name="ProductCategory" 
-                                ref={ProductCategory}
-                                onClick={ () => { updateCategory() } }>
-                                <option value="">--Выберите категорию--</option>
-                                { categories.map( (f) => {
-                                    return(
-                                        <option value={f}>{f}</option>
-                                    )
-                                } ) }
-                            </select>
-                            <input 
-                                type="text"
-                                name="ProductPrice" 
-                                ref={ ProductPrice } 
-                                placeholder="Цена"
-                                minLength={3}
-                                maxLength={32}
-                            />
-                            <Button 
-                                type="Submit"
-                                text="Добавить"
-                                state={ ()=>{} }
-                            />
-                        </form>
+                    <div className="col-12 adminFormWrapper addProduct row">
+                        <div className="col-6">
+                            <h2>Добавить новый товар</h2>
+                            <form onSubmit={ (event) => {event.preventDefault(); addProduct();}}>
+                                <textarea 
+                                    name="ProductName"
+                                    placeholder="Название"
+                                    ref={ ProductName }
+                                    minLength={3}>
+                                </textarea>
+                                <textarea 
+                                    name="ProductDescription"
+                                    placeholder="Описание"
+                                    ref={ ProductDescription }
+                                    minLength={3}>
+                                </textarea>
+                                <select 
+                                    name="addProductCategory" 
+                                    ref={addProductCategory}
+                                    onClick={ () => { updateCategory() } }>
+                                    <option value="">--Выберите категорию--</option>
+                                    { categories.map( (f) => {
+                                        return(
+                                            <option value={f}>{f}</option>
+                                        )
+                                    } ) }
+                                </select>
+                                <input 
+                                    type="text"
+                                    name="ProductPrice" 
+                                    ref={ ProductPrice } 
+                                    placeholder="Цена"
+                                    minLength={1}
+                                    maxLength={9}
+                                />
+                                <button type="submit">Добавить</button>
+                            </form>
+                        </div>
+
+                        <div className="col-6 delProduct">
+                            <h2>Удалить товар</h2>
+                            <form onSubmit={ (event) => {event.preventDefault();}}>
+                                <select 
+                                    name="delProductSellect" 
+                                    ref={delProductSellect}
+                                    onClick={ () => { updateCategory() } }
+                                    onChange={ () => { showProductList() } }>
+                                    <option value="">--Выберите категорию--</option>
+                                    { categories.map( (f) => {
+                                        return(
+                                            <option value={f} >{f}</option>
+                                        )
+                                    } ) }
+                                </select>
+                                {(productList.length === 0)
+                                ? <div></div>
+                                : <div className="table">
+                                    <tr>
+                                        <th className="thId col-1">id</th>
+                                        <th className="thName col-6">Название</th>
+                                        <th className="thPrice col-1">Цена</th>
+                                        <th className="thReviews col-3">Отзывы</th>
+                                        <th className="thDel col-1">Удаление</th>
+                                    </tr>
+                                    { productList.map( (f) => {
+                                        return(
+                                            <tr>
+                                                <td>{f[0]}</td>
+                                                <td>{f[1]}</td>
+                                                <td>{f[2]}</td>
+                                                <td>
+                                                    <Link to={`/product?id=`+f[0]}>
+                                                        Cтраница продукта
+                                                    </Link>
+                                                </td>
+                                                <td>
+                                                    <button 
+                                                        type="button" 
+                                                        onClick={ () => {delProduct(f[0])} }
+                                                    >
+                                                        Удалить
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    } ) }
+                                </div>
+                                }
+                            </form>
+                        </div>
                         <h3 ref={ productMessageText }>{ newProductMessage }</h3>
                     </div>
                 </div>}

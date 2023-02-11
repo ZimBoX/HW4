@@ -1,0 +1,104 @@
+.catigoriesWrapper{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.filter{
+    width: 370px;
+    height: 867px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.showcaseWrapper{
+    width: 100%;
+    margin-left: 80px;
+}
+
+.categoriesShowcase .showcaseItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin-bottom: 25px;
+    padding: 25px;
+}
+
+.categoriesShowcase .showcaseItem:hover{
+    cursor: pointer;
+    background-color: #F6F6F6;
+}
+
+.categoriesShowcase .showcaseItem .imgWrapper{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+}
+
+.categoriesShowcase .showcaseItem .imgWrapper img{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.categoriesShowcase .showcaseItem .textWrapper{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.categoriesShowcase .showcaseItem .textWrapper h3{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 23px;
+    color: #333333;
+}
+
+.categoriesShowcase .showcaseItem .textWrapper h4{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+    color: #A8A8A8;
+}
+
+.categoriesShowcase .showcaseItem p{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #333333;
+    width: 300px;
+    text-align: right;
+    margin: 0;
+}
+
+.sortingWrapper{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    color: #333333;
+    padding: 25px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin-bottom: 50px;
+}
+
+.sortingWrapper h3{
+    display: inline;
+}
+
+.sortingWrapper select{
+    background-color: #FFFFFF;
+    border: 1px solid #6921FC;
+}

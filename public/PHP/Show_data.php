@@ -7,27 +7,14 @@ header('Access-Control-Allow-Credentials: true');
 
 $input = json_decode(file_get_contents('php://input'), true);
 
-if (isset($input)) {
+include("Connect_db.php");
 
-    include("Connect_db.php");
+$conn = Connection_DB();
 
-    $conn = Connection_DB();
+$sql = "SELECT `id`,`name`,`price`,`img_folder` FROM `products` ORDER BY `id` DESC LIMIT 4;";
 
-    $search = $input["search"];
+$result = mysqli_query($conn, $sql);
 
-    $sql = "SELECT P.* 
-    FROM `products` AS P, 
-        `categories` AS C, 
-        `product_category` AS PC 
-        WHERE PC.product_id = P.id 
-        AND PC.category_id = C.id 
-        AND C.category_name = '{$search}' 
-        ORDER BY P.price
-        LIMIT 4;";
-
-    $result = mysqli_query($conn, $sql);
-
-    die(json_encode(mysqli_fetch_all($result)));
-}
+die(json_encode(mysqli_fetch_all($result)));
 
 ?>

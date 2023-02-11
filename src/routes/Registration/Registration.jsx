@@ -129,11 +129,7 @@ function Registration(){
                         ref={ Postcode } 
                         placeholder="Почтовый индекс" 
                     />
-                    <Button 
-                        text="Регистрация"
-                        type="Submit"
-                        state={ ()=>{} }
-                    />
+                    <button type="submit">Регистрация</button>
                     <h2>
                         Есть аккаунт? <Link to={`/Login`}>Войти</Link>
                     </h2>

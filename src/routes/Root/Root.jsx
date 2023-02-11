@@ -29,11 +29,11 @@ function Root() {
         }
     }, [] );
 
-    // useEffect( () => {
-    //     if(window.location.href.indexOf("/admin") !== -1 && !userAdmin){
-    //         window.location.href = "/login";
-    //     }
-    // } )
+    useEffect( () => {
+        if(window.location.href.indexOf("/admin") !== -1 && !userAdmin){
+            window.location.href = "/login";
+        }
+    } )
 
     useEffect( () => {
         if (errMessage !== ""){
